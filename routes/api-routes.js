@@ -22,6 +22,7 @@ module.exports = function(app) {
     }, 
     (err,response,body) => {
         if(!err && response.statusCode == 200) {
+            var results = [];
             var $ = cheerio.load(body);
 
             //Now, We grap the headline, link and summary from the body, do the following:
@@ -40,23 +41,29 @@ module.exports = function(app) {
                     .text();
                 
                 if(result.headline || result.link || result.summary) {
+                    results.push(result);
                     console.log(result);
-                    db.Article.create(result)
-                        .then(function(dbArticle) {
-                            console.log(dbArticle);
-                        })
-                        .catch(function(err){
-                            return res.json(err);
-                        });
                 }
 
             });
 
-            res.send("Scrape Complete");
+            res.json(results);
         }
     });
   });
 
+  //POST route for saving an article
+  app.post("/save", function(req, res) {
+        db.Article.create(req.body)
+            .then(function(dbArticle) {
+                console.log(dbArticle);
+                res.json(dbArticle);
+            })
+            .catch(function(err) {
+                // If an error occurred, send it to the client
+                return res.json(err);
+              });
+  });
   // Get route for getting all the articles from database
   app.get("/api/articles", function(req, res) {
     db.Article.find({})

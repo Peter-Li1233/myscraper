@@ -1,8 +1,17 @@
-function getScrapedArticles() {
+// // Grab the articles as a json
+// $.getJSON("/api/articles", function(data) {
+//     // For each one
+//     for (var i = 0; i < data.length; i++) {
+//       // Display the apropos information on the page
+//       $(".articles-wrapper").append("<p data-id='" + data[i]._id + "'>" + data[i].headline + "<br />" + data[i].summary + "</p>");
+//     }
+//   });
+
+function getSavedArticles() {
 
     $(".articles-wrapper").empty();
     // Grab the scraped articles as a json
-    $.getJSON("/scrape", function(data) {
+    $.getJSON("/api/articles", function(data) {
         // For each one
         for (var i = 0; i < data.length; i++) {
             // Display the article headline on the page
@@ -17,43 +26,25 @@ function getScrapedArticles() {
                 .text(data[i].headline) 
             );
             
-            var saveButton = $('<button class= "btn btn-primary save-article">');
-                saveButton.text('Save Article');
+            var notesButton = $('<button class= "btn btn-info article-notes">');
+                notesButton.text('Article Notes');
+            var deleteButton = $('<button class= "btn btn-danger article-delete">');
+                deleteButton.attr('data-id', data[i]._id);
+                deleteButton.text('Delete From Saved');
             // headElement.text(data[i].headline);
             // headElement.attr("href", data[i].link)
             headElement.append(titleElement);
-            headElement.append(saveButton);
+            headElement.append(notesButton);
+            headElement.append(deleteButton);
 
             $(".articles-wrapper").append(headElement);
             
             // Display the article summary on the page
             $(".articles-wrapper").append("<p class = 'article-summary'>" + data[i].summary + "</p>");
         }
-        $(".modal-body").text(data.length + " Articles Added!");
-        $('#myModal').modal('show'); 
+        // $(".modal-body").text(data.length + " Articles Added!");
+        // $('#myModal').modal('show'); 
     });
 }
 
-$("#scrape-new").on('click', function(){
-    getScrapedArticles();
-});
-
-$(document).on('click', '.save-article', function(){
-    var selected = $(this).parent().children('h2').children('a');
-    
-    var article = {
-        headline: selected.text(),
-        link: selected.attr('href'),
-        summary: $(this).parent().next().text()
-    }   
-    
-    $.ajax({
-        type: "POST",
-        url: "/save",
-        dataType: "json",
-        data: article
-    })
-    .then(function(data) {
-        console.log(data);
-    });
-})
+    getSavedArticles();

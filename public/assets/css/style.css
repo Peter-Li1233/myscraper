@@ -1,12 +1,72 @@
 body, html {
-    background-color: cadetblue;
+    background-color:dimgray;
     height:100%;
     margin:0;
 }
-.bg {
-    background-image: url('../images/New-York-Times.jpg');
-    background-size: cover;
-    background-repeat:   no-repeat;
-    background-position: center center; 
+
+.container {
     height: 100%;
 }
+.bg {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-top: 10px;
+    /* background-image: url('../images/New-York-Times.jpg');
+    background-size: cover;
+    background-repeat:   no-repeat;
+    background-position: center center;  */
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0, 0, 0, 0.5)), url('../images/New-York-Times.jpg') no-repeat center center fixed;
+    background-size:cover;
+    height: 60%;
+    opacity: 0.8;
+
+    text-align: center;
+    color: white;
+}
+
+.background-title {
+    font-size: 75px;
+    font-family: fantasy;
+}
+
+.background-subtitle {
+    font-size: 45px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.articles-wrapper {
+    margin-top: 5px;
+    text-align: left;
+    font-family: 'Times New Roman', Times, serif;
+
+}
+
+#start-slogan {
+    margin-top: 10px;
+    background-color: blanchedalmond;
+    color: white;
+    font-size: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.headElement {
+    background-color: yellowgreen;
+    padding:10px;
+}
+.btn-danger {
+    margin-left: 5px;
+}
+
+
+.article-summary {
+    background-color: white;
+    padding:10px;
+}
+
+.modal-body {
+    font-size: 40px;
+}
+
+
+    
