@@ -64,9 +64,27 @@ body, html {
     padding:10px;
 }
 
-.modal-body {
+#firstModalBody {
     font-size: 40px;
 }
 
+#secondModalBody {
+    font-size: 30px;
+}
+
+.comment-entry {
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    color: deepskyblue;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.delete {
+    color: red;
+}
+
+.form-control {
+    min-width: 100%;
+}
 
     

@@ -75,4 +75,61 @@ module.exports = function(app) {
         });
   });
 
+  app.get("/api/articles/:id", function(req,res) {
+    db.Article.findOne(
+        {_id: req.params.id}
+    )
+    .populate("comment")
+    .then(function(dbArticle){
+        res.json(dbArticle);
+    })
+    .catch(function(err) {
+        res.send(err);
+    })
+  });
+
+  app.delete("/api/articles/:id", function(req,res) {
+    db.Article.deleteOne(
+        {_id: req.params.id}
+    ).then(function(err){
+
+        if (err) {
+            res.send(err);
+        }
+
+    });
+  });
+
+  app.post("/api/comments/:id", function(req, res) {
+
+      db.Comment.create(req.body)
+      .then(function(dbComment) {
+          return db.Article.findByIdAndUpdate({_id: req.params.id}, {$push: {comment: dbComment._id}}, {new: true});
+      })
+      .then(function(dbArticle) {
+          console.log(dbArticle);
+          res.json(dbArticle);
+      })
+      .catch(function(err) {
+          res.json(err);
+      });
+  });
+
+  app.get("/deletenote", function(req,res) {
+    console.log(req.query);
+
+    db.Article.findByIdAndUpdate(req.query.articleId,
+        {$pull: {comment: req.query.commentId}},
+        {safe:true, upsert:true},
+    ).then(function(err, doc){
+
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(doc);
+        }
+
+    });
+  });
+
 };
